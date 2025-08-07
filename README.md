@@ -2,7 +2,7 @@
 
 A modern, full-stack URL shortening service built with Next.js 15, TypeScript, and serverless architecture. Transform long URLs into short, shareable links with real-time analytics and a beautiful, responsive interface.
 
-![URL Shortener Demo](https://via.placeholder.com/800x400/2563eb/ffffff?text=URL+Shortener+Demo)
+<!-- ![URL Shortener Demo](https://via.placeholder.com/800x400/2563eb/ffffff?text=URL+Shortener+Demo) -->
 
 ## ✨ Features
 
