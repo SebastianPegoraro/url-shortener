@@ -31,6 +31,6 @@ jobs:
         uses: SonarSource/sonarcloud-github-action@master
         with:
           args: >
-            -Dsonar.organization=SebastianPegoraro
+            -Dsonar.organization=sebastianpegoraro
             -Dsonar.projectKey=SebastianPegoraro_url-shortener
             -Dsonar.token=${{ secrets.SONAR_TOKEN }}
