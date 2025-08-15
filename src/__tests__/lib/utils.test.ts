@@ -33,10 +33,10 @@ describe("isValidUrl", () => {
   it("returns true for valid URLs", () => {
     expect(isValidUrl("https://example.com")).toBe(true);
     expect(isValidUrl("http://example.com")).toBe(true);
-    expect(isValidUrl("ftp://example.com")).toBe(true);
   });
 
   it("returns false for invalid URLs", () => {
+    expect(isValidUrl("ftp://example.com")).toBe(false);
     expect(isValidUrl("not a url")).toBe(false);
     expect(isValidUrl("")).toBe(false);
     expect(isValidUrl("htp:/bad")).toBe(false);

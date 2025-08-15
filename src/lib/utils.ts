@@ -12,8 +12,8 @@ export function generateShortCode(length: number = 6): string {
 
 export function isValidUrl(url: string): boolean {
   try {
-    new URL(url);
-    return true;
+    const newUrl = new URL(url);
+    return newUrl.protocol === "http:" || newUrl.protocol === "https:";
   } catch {
     return false;
   }
