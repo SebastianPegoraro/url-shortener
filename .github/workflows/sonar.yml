@@ -32,5 +32,5 @@ jobs:
         with:
           args: >
             -Dsonar.organization=SebastianPegoraro
-            -Dsonar.projectKey=url-shortener
+            -Dsonar.projectKey=SebastianPegoraro_url-shortener
             -Dsonar.token=${{ secrets.SONAR_TOKEN }}
