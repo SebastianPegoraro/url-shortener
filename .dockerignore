@@ -1,0 +1,19 @@
+# Dependencies / build output
+node_modules
+.npm
+.next
+dist
+coverage
+
+# Logs & misc
+*.log
+.DS_Store
+
+# Local env & prisma artifacts (keep schema files)
+.env*
+!.env.example
+.prisma
+
+# VCS
+.git
+.gitignore

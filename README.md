@@ -56,8 +56,8 @@ A modern, full-stack URL shortening service built with Next.js 15, TypeScript, a
 4. **Initialize the database**
 
    ```bash
-   npm run db:generate:dev
-   npm run db:migrate:dev --name init
+   npm run db:generate:development
+   npm run db:migrate:development --name init
    ```
 
 5. **Start the development server**
@@ -125,20 +125,20 @@ url-shortener/
 
 ```bash
 # Development
-npm run dev                     # Start development server
-npm run db:generate:dev         # Generate Prisma client for development
-npm run db:migrate:dev          # Run database migrations for development
+npm run dev                         # Start development server
+npm run db:generate:development     # Generate Prisma client for development
+npm run db:migrate:development      # Run database migrations for development
 
 # Production
-npm run build                   # Build for production
-npm run start                   # Start production server
-npm run db:generate:prod        # Generate Prisma client for production
-npm run db:push:prod           # Push schema to production database
+npm run build                       # Build for production
+npm run start                       # Start production server
+npm run db:generate:production      # Generate Prisma client for production
+npm run db:push:production          # Push schema to production database
 
 # Utilities
-npm run lint                    # Run ESLint
-npm run db:studio:dev          # Open Prisma Studio for development
-npm run db:studio:prod         # Open Prisma Studio for production
+npm run lint                        # Run ESLint
+npm run db:studio:development       # Open Prisma Studio for development
+npm run db:studio:production        # Open Prisma Studio for production
 ```
 
 ## 🏛️ Architecture

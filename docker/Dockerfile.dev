@@ -1,0 +1,23 @@
+FROM node:20-slim
+
+RUN apt-get update -y && apt-get install -y --no-install-recommends \
+    openssl \
+ && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Copy manifests first
+COPY package.json package-lock.json ./
+
+# Install deps WITHOUT running postinstall
+RUN npm ci --ignore-scripts
+
+# Copy the rest of the app
+COPY . .
+
+# Manually generate Prisma client for dev schema
+RUN npm run db:generate:development
+
+EXPOSE 3000
+
+CMD ["npm", "run", "dev"]
