@@ -7,10 +7,9 @@
     "build": "npm run db:generate:production && next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "npm run db:generate:env",
+    "postinstall": "npm run db:generate:development",
     "db:generate:development": "prisma generate --schema=prisma/schema.development.prisma",
     "db:generate:production": "prisma generate --schema=prisma/schema.production.prisma",
-    "db:generate:env": "npm run db:generate:${NODE_ENV:-dev}",
     "db:migrate:development": "prisma migrate dev --schema=prisma/schema.development.prisma",
     "db:migrate:production": "prisma migrate deploy --schema=prisma/schema.production.prisma",
     "db:push:development": "prisma db push --schema=prisma/schema.development.prisma",
@@ -30,11 +29,13 @@
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-hot-toast": "^2.5.2",
-    "tailwind-merge": "^3.3.1"
+    "tailwind-merge": "^3.3.1",
+    "tailwindcss": "^3.4.0",
+    "postcss": "^8.4.0",
+    "autoprefixer": "^10.4.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
-    "@tailwindcss/postcss": "^4",
     "@testing-library/jest-dom": "^6.7.0",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
@@ -47,7 +48,6 @@
     "jest": "^30.0.5",
     "jest-environment-jsdom": "^30.0.5",
     "prisma": "^6.13.0",
-    "tailwindcss": "^4",
     "ts-jest": "^29.4.1",
     "typescript": "^5"
   }
