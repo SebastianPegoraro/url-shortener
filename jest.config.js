@@ -1,13 +1,51 @@
-/** @type {import('ts-jest').JestConfigWithTsJest} */
-module.exports = {
-  preset: "ts-jest",
-  testEnvironment: "jsdom", // for React components
-  setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
-  collectCoverage: true,
-  coverageDirectory: "coverage",
-  coverageReporters: ["lcov", "text"],
-  testMatch: ["**/__tests__/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[tj]s?(x)"],
+/**
+ * jest.config.js
+ *
+ * Two separate projects let you run unit and integration tests independently:
+ *
+ *   npm test                          → runs everything
+ *   npm run test:unit                 → only unit tests (fast, no DB)
+ *   npm run test:integration          → only integration tests (real SQLite DB)
+ */
+
+import nextJest from "next/jest";
+
+const createJestConfig = nextJest({ dir: "./" });
+
+const baseConfig = {
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/src/$1",
   },
 };
+
+export default createJestConfig({
+  ...baseConfig,
+  projects: [
+    // ── Unit tests ────────────────────────────────────────────────────────
+    {
+      ...baseConfig,
+      displayName: "unit",
+      testEnvironment: "jest-environment-jsdom",
+      setupFilesAfterFramework: ["<rootDir>/jest.setup.ts"],
+      // Only matches files NOT inside the integration folder
+      testMatch: [
+        "**/__tests__/**/*.test.ts",
+        "**/__tests__/**/*.test.tsx",
+        "**/*.test.ts",
+        "**/*.test.tsx",
+        "!**/__tests__/integration/**",
+      ],
+    },
+
+    // ── Integration tests ─────────────────────────────────────────────────
+    {
+      ...baseConfig,
+      displayName: "integration",
+      // node environment — integration tests don't need a browser DOM,
+      // they call route handlers and Prisma directly
+      testEnvironment: "node",
+      testMatch: ["**/__tests__/integration/**/*.test.ts"],
+      // No jsdom setup needed for integration tests
+    },
+  ],
+});
