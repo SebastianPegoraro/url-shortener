@@ -1,9 +1,6 @@
 /**
- * shorten.integration.test.ts
- *
  * Integration tests for POST /api/shorten
  *
- * What makes these integration tests (not unit tests):
  * - Prisma is NOT mocked — every call hits a real SQLite test database.
  * - nanoid is NOT mocked — real short codes are generated.
  * - Assertions cross BOTH the HTTP layer (response) AND the DB layer,
@@ -14,25 +11,18 @@ import { NextRequest } from "next/server";
 import { POST } from "@/app/api/shorten/route";
 import { prisma, setupTestDb, cleanDb, disconnectDb } from "./helpers/testDb";
 
-// ─── Suite setup ──────────────────────────────────────────────────────────────
-
 beforeAll(async () => {
-  // Apply migrations once before all tests in this file
   setupTestDb();
-  // Clean database at start of this test file to ensure isolation from other test files
   await cleanDb();
 });
 
 beforeEach(async () => {
-  // Start every test with an empty database
   await cleanDb();
 });
 
 afterAll(async () => {
   await disconnectDb();
 });
-
-// ─── Helper ───────────────────────────────────────────────────────────────────
 
 function makeRequest(body: object) {
   return new NextRequest("http://localhost:3000/api/shorten", {
@@ -41,8 +31,6 @@ function makeRequest(body: object) {
     body: JSON.stringify(body),
   });
 }
-
-// ─── Tests ────────────────────────────────────────────────────────────────────
 
 describe("POST /api/shorten — integration", () => {
   describe("happy path: shortening a new URL", () => {

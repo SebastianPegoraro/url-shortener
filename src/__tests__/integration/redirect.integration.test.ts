@@ -75,8 +75,6 @@ function wait(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-// ─── Tests ────────────────────────────────────────────────────────────────────
-
 describe("[shortCode] page — integration", () => {
   describe("valid short code", () => {
     it("redirects to the original URL", async () => {
@@ -147,7 +145,7 @@ describe("[shortCode] page — integration", () => {
       const unrelated = await prisma.url.findUnique({
         where: { shortCode: "xyz789" },
       });
-      expect(unrelated!.clicks).toBe(3); // unchanged
+      expect(unrelated!.clicks).toBe(3);
     });
   });
 
