@@ -1,9 +1,5 @@
 /**
- * redirect.integration.test.ts
- *
  * Integration tests for the [shortCode] dynamic page (src/app/[shortCode]/page.tsx)
- *
- * Important notes about testing this page:
  *
  * 1. `redirect()` in Next.js throws a special error internally (NEXT_REDIRECT).
  *    We can't catch a normal return value — we catch the thrown error and inspect
@@ -18,10 +14,9 @@
 import ShortCodePage from "@/app/[shortCode]/page";
 import { prisma, setupTestDb, cleanDb, disconnectDb } from "./helpers/testDb";
 
-// ─── Suite setup ──────────────────────────────────────────────────────────────
-
-beforeAll(() => {
+beforeAll(async () => {
   setupTestDb();
+  await cleanDb();
 });
 
 beforeEach(async () => {
@@ -31,8 +26,6 @@ beforeEach(async () => {
 afterAll(async () => {
   await disconnectDb();
 });
-
-// ─── Helpers ──────────────────────────────────────────────────────────────────
 
 /** Build the params prop that the page receives from Next.js routing */
 function makeParams(shortCode: string) {
@@ -54,9 +47,9 @@ async function getRedirectUrl(shortCode: string): Promise<string> {
     const error = err as { digest?: string; message?: string };
 
     if (error?.digest?.startsWith("NEXT_REDIRECT")) {
-      // digest format: "NEXT_REDIRECT;replace;<url>" or "NEXT_REDIRECT;push;<url>"
+      // Format: "NEXT_REDIRECT;replace;<url>;<status>;"
       const parts = error.digest.split(";");
-      return parts[parts.length - 1];
+      return parts[2]; // index 2 is always the URL
     }
     throw err;
   }
@@ -72,7 +65,7 @@ async function didNotFound(shortCode: string): Promise<boolean> {
     return false;
   } catch (err: unknown) {
     const error = err as { digest?: string };
-    if (error?.digest === "NEXT_NOT_FOUND") return true;
+    if (error?.digest === "NEXT_HTTP_ERROR_FALLBACK;404") return true;
     throw err;
   }
 }

@@ -1,6 +1,4 @@
 /**
- * testDb.ts
- *
  * Sets up an isolated SQLite database for integration tests.
  *
  * How it works:

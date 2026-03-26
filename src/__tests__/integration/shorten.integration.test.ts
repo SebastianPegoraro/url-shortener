@@ -16,9 +16,11 @@ import { prisma, setupTestDb, cleanDb, disconnectDb } from "./helpers/testDb";
 
 // ─── Suite setup ──────────────────────────────────────────────────────────────
 
-beforeAll(() => {
+beforeAll(async () => {
   // Apply migrations once before all tests in this file
   setupTestDb();
+  // Clean database at start of this test file to ensure isolation from other test files
+  await cleanDb();
 });
 
 beforeEach(async () => {

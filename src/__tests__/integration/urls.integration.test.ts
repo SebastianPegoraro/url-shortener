@@ -17,6 +17,8 @@ import { prisma, setupTestDb, cleanDb, disconnectDb } from "./helpers/testDb";
 
 beforeAll(async () => {
   setupTestDb();
+  // Clean database at start of this test file to ensure isolation from other test files
+  await cleanDb();
 });
 
 beforeEach(async () => {

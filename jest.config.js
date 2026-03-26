@@ -8,7 +8,7 @@
  *   npm run test:integration          → only integration tests (real SQLite DB)
  */
 
-import nextJest from "next/jest";
+import nextJest from "next/jest.js";
 
 const createJestConfig = nextJest({ dir: "./" });
 
@@ -45,7 +45,24 @@ export default createJestConfig({
       // they call route handlers and Prisma directly
       testEnvironment: "node",
       testMatch: ["**/__tests__/integration/**/*.test.ts"],
-      // No jsdom setup needed for integration tests
+      globalSetup: "<rootDir>/jest.globalSetup.integration.ts",
+      globalTeardown: "<rootDir>/jest.globalTeardown.integration.ts",
+      setupFilesAfterEnv: ["<rootDir>/jest.setup.integration.ts"],
+      transform: {
+        "^.+\\.tsx?$": [
+          "ts-jest",
+          {
+            tsconfig: {
+              jsx: "react",
+            },
+          },
+        ],
+      },
+      // Redirect @/lib/prisma to test database prisma
+      moduleNameMapper: {
+        "^@/lib/prisma$": "<rootDir>/src/__tests__/integration/helpers/testDb.ts",
+        ...baseConfig.moduleNameMapper,
+      },
     },
   ],
 });
