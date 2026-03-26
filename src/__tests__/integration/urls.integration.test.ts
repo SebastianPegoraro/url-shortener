@@ -1,6 +1,4 @@
 /**
- * urls.integration.test.ts
- *
  * Integration tests for GET /api/urls
  *
  * Strategy:
@@ -13,11 +11,8 @@
 import { GET } from "@/app/api/urls/route";
 import { prisma, setupTestDb, cleanDb, disconnectDb } from "./helpers/testDb";
 
-// ─── Suite setup ──────────────────────────────────────────────────────────────
-
 beforeAll(async () => {
   setupTestDb();
-  // Clean database at start of this test file to ensure isolation from other test files
   await cleanDb();
 });
 
@@ -28,8 +23,6 @@ beforeEach(async () => {
 afterAll(async () => {
   await disconnectDb();
 });
-
-// ─── Helper ───────────────────────────────────────────────────────────────────
 
 async function seedUrl(
   originalUrl: string,
@@ -43,10 +36,8 @@ async function seedUrl(
 }
 
 function fetchUrls() {
-  return GET(new Request("http://localhost/api/urls"));
+  return GET();
 }
-
-// ─── Tests ────────────────────────────────────────────────────────────────────
 
 describe("GET /api/urls — integration", () => {
   describe("empty database", () => {
