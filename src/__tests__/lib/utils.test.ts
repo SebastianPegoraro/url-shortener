@@ -1,5 +1,4 @@
 import { cn, generateShortCode, isValidUrl, formatUrl } from "../../lib/utils";
-import { nanoid } from "nanoid";
 
 // Mock nanoid for predictable output
 jest.mock("nanoid", () => ({
@@ -13,18 +12,16 @@ describe("cn", () => {
   });
 
   it("handles conditional classes", () => {
-    expect(cn("foo", false && "bar", null, undefined)).toBe("foo");
+    expect(cn("foo", false, null, undefined)).toBe("foo");
   });
 });
 
 describe("generateShortCode", () => {
   it("returns a string of given length", () => {
-    (nanoid as jest.Mock).mockReturnValue("abcdef");
     expect(generateShortCode(6)).toBe("abcdef");
   });
 
   it("uses default length when not provided", () => {
-    (nanoid as jest.Mock).mockReturnValue("abcdef");
     expect(generateShortCode()).toBe("abcdef");
   });
 });

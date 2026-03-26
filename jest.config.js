@@ -26,7 +26,17 @@ export default createJestConfig({
       ...baseConfig,
       displayName: "unit",
       testEnvironment: "jest-environment-jsdom",
-      setupFilesAfterFramework: ["<rootDir>/jest.setup.ts"],
+      setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
+      transform: {
+        "^.+\\.tsx?$": [
+          "ts-jest",
+          {
+            tsconfig: {
+              jsx: "react",
+            },
+          },
+        ],
+      },
       // Only matches files NOT inside the integration folder
       testMatch: [
         "**/__tests__/**/*.test.ts",
@@ -60,7 +70,8 @@ export default createJestConfig({
       },
       // Redirect @/lib/prisma to test database prisma
       moduleNameMapper: {
-        "^@/lib/prisma$": "<rootDir>/src/__tests__/integration/helpers/testDb.ts",
+        "^@/lib/prisma$":
+          "<rootDir>/src/__tests__/integration/helpers/testDb.ts",
         ...baseConfig.moduleNameMapper,
       },
     },
