@@ -45,8 +45,9 @@ export function setupTestDb() {
 }
 
 /**
- * Wipe all rows from every table.
- * Call this in beforeEach so each test starts with a clean slate.
+ * Remove all rows from tables used by integration tests to reset test state.
+ *
+ * This function deletes rows from the `url` table and is intended to be called before each test.
  */
 export async function cleanDb() {
   // Delete in safe order (no FK constraints in this schema, but good habit)

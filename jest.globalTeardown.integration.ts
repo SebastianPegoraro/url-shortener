@@ -9,6 +9,9 @@ import path from "node:path";
 
 const TEST_DB_PATH = path.resolve(process.cwd(), "prisma/test.db");
 
+/**
+ * Removes all records from the test SQLite database's `url` table and ensures the Prisma client is disconnected; logs success or any error.
+ */
 export default async function globalTeardown() {
   const prisma = new PrismaClient({
     datasources: {
