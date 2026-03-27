@@ -18,8 +18,17 @@ import { PrismaClient } from "@prisma/client";
 import { execSync } from "node:child_process";
 import path from "node:path";
 
-// Use a dedicated test database file, separate from dev.db
-const TEST_DB_PATH = path.resolve(process.cwd(), "prisma/test.db");
+/**
+ * Use a unique test database file per Jest worker to enable parallel test execution.
+ * JEST_WORKER_ID is undefined when running in single-threaded mode (e.g., debugging).
+ * Falls back to 'shared' for backward compatibility in that case.
+ */
+function getTestDbPath() {
+  const workerId = process.env.JEST_WORKER_ID || "shared";
+  return path.resolve(process.cwd(), `prisma/test_${workerId}.db`);
+}
+
+const TEST_DB_PATH = getTestDbPath();
 process.env.DATABASE_URL = `file:${TEST_DB_PATH}`;
 process.env.NEXT_PUBLIC_BASE_URL = "http://localhost:3000";
 

@@ -48,4 +48,4 @@ next-env.d.ts
 
 # databases
 prisma/dev.db
-prisma/test.db
+prisma/tes*.db
