@@ -10,6 +10,12 @@ export const metadata: Metadata = {
   description: "Transform long URLs into short, shareable links",
 };
 
+/**
+ * Application root layout that wraps page content with the HTML document shell, global font, and a configured toast container.
+ *
+ * @param children - The page content to render inside the application's `<body>`
+ * @returns A JSX element containing the root `<html>` and `<body>` that render `children` and a top-right `Toaster`
+ */
 export default function RootLayout({
   children,
 }: {
