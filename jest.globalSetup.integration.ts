@@ -9,6 +9,11 @@ import path from "node:path";
 
 const TEST_DB_PATH = path.resolve(process.cwd(), "prisma/test.db");
 
+/**
+ * Prepare the integration test database by setting `DATABASE_URL` to the test DB file and applying Prisma migrations.
+ *
+ * @throws An error if applying Prisma migrations fails.
+ */
 export default async function globalSetup() {
   // Set environment for migrations
   process.env.DATABASE_URL = `file:${TEST_DB_PATH}`;
