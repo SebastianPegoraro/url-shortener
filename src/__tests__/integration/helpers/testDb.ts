@@ -52,7 +52,7 @@ export function setupTestDb() {
   const prismaBin = path.join(prismaDir, prismaBinRelative);
 
   const result = spawnSync(
-    "node",
+    process.execPath,
     [prismaBin, "migrate", "deploy", "--schema=prisma/schema.dev.prisma"],
     {
       env: {
