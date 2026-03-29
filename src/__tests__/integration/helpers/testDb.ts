@@ -44,13 +44,16 @@ export const prisma = new PrismaClient({
  * Applies all migrations to the test database so the schema is ready.
  */
 export function setupTestDb() {
-  execSync("npx prisma migrate deploy --schema=prisma/schema.dev.prisma", {
-    env: {
-      ...process.env,
-      DATABASE_URL: `file:${TEST_DB_PATH}`,
+  execSync(
+    "./node_modules/.bin/prisma migrate deploy --schema=prisma/schema.dev.prisma",
+    {
+      env: {
+        ...process.env,
+        DATABASE_URL: `file:${TEST_DB_PATH}`,
+      },
+      stdio: "pipe", // suppress noisy output during tests
     },
-    stdio: "pipe", // suppress noisy output during tests
-  });
+  );
 }
 
 /**
