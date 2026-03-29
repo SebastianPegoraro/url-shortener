@@ -57,12 +57,14 @@ describe("GET /api/urls — integration", () => {
       const res = await fetchUrls();
       const body = await res.json();
 
+      const expectedShortUrl = `${process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"}/abc123`;
+
       expect(res.status).toBe(200);
       expect(body).toHaveLength(1);
       expect(body[0]).toMatchObject({
         originalUrl: "https://example.com",
         shortCode: "abc123",
-        shortUrl: "http://localhost:3000/abc123",
+        shortUrl: expectedShortUrl,
         clicks: 0,
       });
     });
