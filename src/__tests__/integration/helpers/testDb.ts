@@ -15,7 +15,7 @@
  */
 
 import { PrismaClient } from "@prisma/client";
-import { execSync } from "node:child_process";
+import { spawnSync } from "node:child_process";
 import path from "node:path";
 
 /**
@@ -51,16 +51,20 @@ export function setupTestDb() {
   const prismaBinRelative = prismaPackageJson.bin.prisma as string;
   const prismaBin = path.join(prismaDir, prismaBinRelative);
 
-  execSync(
-    `node "${prismaBin}" migrate deploy --schema=prisma/schema.dev.prisma`,
-    {
-      env: {
-        ...process.env,
-        DATABASE_URL: `file:${TEST_DB_PATH}`,
-      },
-      stdio: "pipe", // suppress noisy output during tests
+  const result = spawnSync("node", [prismaBin, "migrate", "deploy", "--schema=prisma/schema.dev.prisma"], {
+    env: {
+      ...process.env,
+      DATABASE_URL: `file:${TEST_DB_PATH}`,
     },
-  );
+    stdio: "pipe", // suppress noisy output during tests
+  });
+
+  if (result.error) {
+    throw result.error;
+  }
+  if (result.status !== 0) {
+    throw new Error(`Prisma migrate failed with code ${result.status}: ${result.stderr?.toString()}`);
+  }
 }
 
 /**
