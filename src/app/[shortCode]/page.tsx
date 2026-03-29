@@ -8,19 +8,28 @@ interface Props {
 export default async function ShortCodePage({ params }: Props) {
   const { shortCode } = await params;
 
-  const url = await prisma.url.findUnique({
-    where: { shortCode },
+  // Use transaction to atomically read and update, preventing race conditions
+  const url = await prisma.$transaction(async (tx) => {
+    const foundUrl = await tx.url.findUnique({
+      where: { shortCode },
+    });
+
+    if (!foundUrl) {
+      return null;
+    }
+
+    // Increment click count atomically within the same transaction
+    await tx.url.update({
+      where: { id: foundUrl.id },
+      data: { clicks: { increment: 1 } },
+    });
+
+    return foundUrl;
   });
 
   if (!url) {
     notFound();
   }
-
-  // Increment click count before redirecting
-  await prisma.url.update({
-    where: { id: url.id },
-    data: { clicks: { increment: 1 } },
-  });
 
   redirect(url.originalUrl);
 }
