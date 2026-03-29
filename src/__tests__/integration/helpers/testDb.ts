@@ -44,8 +44,15 @@ export const prisma = new PrismaClient({
  * Applies all migrations to the test database so the schema is ready.
  */
 export function setupTestDb() {
+  // Load prisma package.json to find the CLI entry point securely
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const prismaPackageJson = require("prisma/package.json");
+  const prismaDir = path.dirname(require.resolve("prisma/package.json"));
+  const prismaBinRelative = prismaPackageJson.bin.prisma as string;
+  const prismaBin = path.join(prismaDir, prismaBinRelative);
+
   execSync(
-    "./node_modules/.bin/prisma migrate deploy --schema=prisma/schema.dev.prisma",
+    `node "${prismaBin}" migrate deploy --schema=prisma/schema.dev.prisma`,
     {
       env: {
         ...process.env,
