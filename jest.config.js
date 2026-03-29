@@ -1,6 +1,4 @@
 /**
- * jest.config.js
- *
  * Two separate projects let you run unit and integration tests independently:
  *
  *   npm test                          → runs everything

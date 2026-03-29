@@ -1,6 +1,4 @@
 /**
- * jest.setup.integration.ts
- *
  * Setup file for integration tests.
  * - Mocks nanoid to avoid ESM import issues
  * - moduleNameMapper in jest.config redirects @/lib/prisma to test database
