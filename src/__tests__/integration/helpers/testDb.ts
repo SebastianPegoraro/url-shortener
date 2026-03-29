@@ -51,19 +51,25 @@ export function setupTestDb() {
   const prismaBinRelative = prismaPackageJson.bin.prisma as string;
   const prismaBin = path.join(prismaDir, prismaBinRelative);
 
-  const result = spawnSync("node", [prismaBin, "migrate", "deploy", "--schema=prisma/schema.dev.prisma"], {
-    env: {
-      ...process.env,
-      DATABASE_URL: `file:${TEST_DB_PATH}`,
+  const result = spawnSync(
+    "node",
+    [prismaBin, "migrate", "deploy", "--schema=prisma/schema.dev.prisma"],
+    {
+      env: {
+        NODE_ENV: "test",
+        DATABASE_URL: `file:${TEST_DB_PATH}`,
+      },
+      stdio: "pipe", // suppress noisy output during tests
     },
-    stdio: "pipe", // suppress noisy output during tests
-  });
+  );
 
   if (result.error) {
     throw result.error;
   }
   if (result.status !== 0) {
-    throw new Error(`Prisma migrate failed with code ${result.status}: ${result.stderr?.toString()}`);
+    throw new Error(
+      `Prisma migrate failed with code ${result.status}: ${result.stderr?.toString()}`,
+    );
   }
 }
 
