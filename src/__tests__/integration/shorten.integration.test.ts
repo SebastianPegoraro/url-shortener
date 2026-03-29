@@ -2,13 +2,14 @@
  * Integration tests for POST /api/shorten
  *
  * - Prisma is NOT mocked — every call hits a real SQLite test database.
- * - nanoid is NOT mocked — real short codes are generated.
+ * - nanoid is mocked (in jest.setup.integration.ts) for deterministic testing.
  * - Assertions cross BOTH the HTTP layer (response) AND the DB layer,
  *   confirming that what the API returns actually matches what was persisted.
  */
 
 import { NextRequest } from "next/server";
 import { POST } from "@/app/api/shorten/route";
+import { nanoid } from "nanoid";
 import { prisma, setupTestDb, cleanDb, disconnectDb } from "./helpers/testDb";
 
 beforeAll(async () => {
@@ -77,12 +78,16 @@ describe("POST /api/shorten — integration", () => {
       expect(dbRecord!.originalUrl).toBe("https://example.com");
     });
 
-    it("generates a unique short code (not empty, reasonable length)", async () => {
+    it("generates a unique short code with correct length passed to nanoid", async () => {
+      const mockNanoid = jest.mocked(nanoid);
+      mockNanoid.mockClear();
+
       const res = await POST(makeRequest({ url: "https://example.com" }));
       const body = await res.json();
 
       expect(body.shortCode).toBeTruthy();
-      expect(body.shortCode.length).toBeGreaterThanOrEqual(6);
+      // Verify the production contract: nanoid was called with length 6
+      expect(mockNanoid).toHaveBeenCalledWith(6);
     });
   });
 
