@@ -16,13 +16,11 @@ export default async function ShortCodePage({ params }: Props) {
     notFound();
   }
 
-  // Increment click count
-  prisma.url
-    .update({
-      where: { id: url.id },
-      data: { clicks: { increment: 1 } },
-    })
-    .catch(console.error);
+  // Increment click count before redirecting
+  await prisma.url.update({
+    where: { id: url.id },
+    data: { clicks: { increment: 1 } },
+  });
 
   redirect(url.originalUrl);
 }

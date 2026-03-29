@@ -70,11 +70,6 @@ async function didNotFound(shortCode: string): Promise<boolean> {
   }
 }
 
-/** Small wait to let the fire-and-forget click increment settle */
-function wait(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
 describe("[shortCode] page — integration", () => {
   describe("valid short code", () => {
     it("redirects to the original URL", async () => {
@@ -100,9 +95,7 @@ describe("[shortCode] page — integration", () => {
 
       await getRedirectUrl("abc123");
 
-      // Wait briefly for the fire-and-forget update to complete
-      await wait(200);
-
+      // Update is awaited in the app before redirecting
       const record = await prisma.url.findUnique({
         where: { shortCode: "abc123" },
       });
@@ -119,8 +112,8 @@ describe("[shortCode] page — integration", () => {
       });
 
       await getRedirectUrl("abc123");
-      await wait(200);
 
+      // Update is awaited in the app before redirecting
       const record = await prisma.url.findUnique({
         where: { shortCode: "abc123" },
       });
@@ -140,7 +133,6 @@ describe("[shortCode] page — integration", () => {
       });
 
       await getRedirectUrl("abc123");
-      await wait(200);
 
       const unrelated = await prisma.url.findUnique({
         where: { shortCode: "xyz789" },

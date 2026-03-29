@@ -59,7 +59,6 @@ export function setupTestDb() {
  * This function deletes rows from the `url` table and is intended to be called before each test.
  */
 export async function cleanDb() {
-  // Delete in safe order (no FK constraints in this schema, but good habit)
   await prisma.url.deleteMany();
 }
 
