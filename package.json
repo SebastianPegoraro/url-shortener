@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "engines": {
-    "node": ">=18.18"
+    "node": "22.x"
   },
   "scripts": {
     "dev": "next dev",
@@ -31,7 +31,7 @@
     "@vercel/edge": "^1.2.2",
     "clsx": "^2.1.1",
     "nanoid": "^5.1.5",
-    "next": "15.4.5",
+    "next": "^16.2.2",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-hot-toast": "^2.5.2",
@@ -48,7 +48,7 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "eslint": "^9",
-    "eslint-config-next": "15.4.5",
+    "eslint-config-next": "^16.2.2",
     "jest": "^30.0.5",
     "jest-environment-jsdom": "^30.0.5",
     "prisma": "^6.13.0",
