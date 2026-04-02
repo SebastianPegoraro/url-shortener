@@ -43,6 +43,12 @@ export default async function globalSetup() {
   const testDbPaths = getTestDbPaths();
 
   try {
+    // Generate Prisma client for the dev schema first
+    // This ensures @prisma/client is initialized for the dev schema before tests import it
+    execSync("npx prisma generate --schema=prisma/schema.dev.prisma", {
+      stdio: "pipe",
+    });
+
     // Apply migrations to each test database (shared + per-worker)
     for (const dbPath of testDbPaths) {
       execSync("npx prisma migrate deploy --schema=prisma/schema.dev.prisma", {
