@@ -30,7 +30,7 @@ export default createJestConfig({
           "ts-jest",
           {
             tsconfig: {
-              jsx: "react",
+              jsx: "react-jsx",
             },
           },
         ],
@@ -61,7 +61,7 @@ export default createJestConfig({
           "ts-jest",
           {
             tsconfig: {
-              jsx: "react",
+              jsx: "react-jsx",
             },
           },
         ],
