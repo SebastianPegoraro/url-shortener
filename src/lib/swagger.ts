@@ -9,7 +9,7 @@ const options = {
       description: "API documentation for URL shortener",
     },
   },
-  apis: ["./app/api/**/*.ts"],
+  apis: ["./src/app/api/**/*.ts"],
 };
 
 export const swaggerSpec = swaggerJSDoc(options);
