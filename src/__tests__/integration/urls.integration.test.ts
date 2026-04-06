@@ -69,7 +69,7 @@ describe("GET /api/urls — integration", () => {
       });
     });
 
-    it("returns up to 10 URLs (enforces the limit)", async () => {
+    it("returns up to 5 URLs (enforces the limit)", async () => {
       // Seed 12 records
       for (let i = 1; i <= 12; i++) {
         await seedUrl(
@@ -82,7 +82,7 @@ describe("GET /api/urls — integration", () => {
       const body = await res.json();
 
       expect(res.status).toBe(200);
-      expect(body).toHaveLength(10);
+      expect(body).toHaveLength(5);
     });
 
     it("returns URLs ordered by createdAt descending (newest first)", async () => {

@@ -2,6 +2,24 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { generateShortCode, isValidUrl, formatUrl } from "@/lib/utils";
 
+/**
+ * @swagger
+ * /api/shorten:
+ *   post:
+ *     summary: Create a short URL
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               url:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Short URL created
+ */
 export async function POST(req: NextRequest) {
   try {
     const { url } = await req.json();
@@ -15,7 +33,7 @@ export async function POST(req: NextRequest) {
     if (!isValidUrl(formattedUrl)) {
       return NextResponse.json(
         { error: "Invalid URL format" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -64,7 +82,7 @@ export async function POST(req: NextRequest) {
     console.error("Error creating short URL:", error);
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
